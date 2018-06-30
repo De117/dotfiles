@@ -9,9 +9,24 @@ alias les 'less -R'
 alias del 'trash'
 alias b   'bash'
 
+alias wdiff 'git diff --no-index --word-diff=color'
+
 # fish version of `function c() { cd "$@" && l; }`
 function c
   builtin cd $argv; and l
+end
+
+
+function d -d "Run stdout of command to /dev/null"
+    eval "$argv > /dev/null";
+end
+
+function e -d "Run stderr of command to /dev/null"
+    eval "$argv 2>/dev/null";
+end
+
+function de -d "Run both stdout and stderr of command to /dev/null"
+    eval "$argv 2>&1 > /dev/null";
 end
 
 
