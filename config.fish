@@ -1,4 +1,5 @@
-alias ll  'ls -oh --time-style=+%d/%m/%Y'
+#alias ll  'ls -oh --time-style=+%d/%m/%Y'
+alias ll  'ls -oh --time-style=+%Y-%m-%d'
 alias llh 'ls -alh'
 alias sl  'ls'
 alias l   'ls -CF'
@@ -10,6 +11,11 @@ alias del 'trash'
 alias b   'bash'
 
 alias wdiff 'git diff --no-index --word-diff=color'
+alias open 'xdg-open'
+
+alias apc 'apt-cache'
+alias š   'git status'
+alias xclip 'xclip -selection clipboard'
 
 # fish version of `function c() { cd "$@" && l; }`
 function c
@@ -42,4 +48,8 @@ end
 function llwatch -d "Run `ll` command through `watch`"
 
     watch -n1 --color 'ls -toh --time-style=+%d/%m/%Y --color=always'
+end
+
+function wh -d "Like `which`, but dereference links"
+    readlink -f (which $argv)
 end
