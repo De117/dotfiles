@@ -1,4 +1,11 @@
-#alias ll  'ls -oh --time-style=+%d/%m/%Y'
+# In case of macOS,
+# assume GNU coreutils are installed
+# and use those binaries instead of BSD ones
+if [ (uname) = "Darwin" ]
+    alias ls       'gls --color=auto'
+    alias readlink 'greadlink'
+    alias head     'ghead'
+end
 alias ll  'ls -oh --time-style=+%Y-%m-%d'
 alias llh 'ls -alh'
 alias sl  'ls'
@@ -8,18 +15,30 @@ alias py  'python3'
 alias ipy 'ipython3 --pylab'
 alias les 'less -R'
 alias del 'trash'
-alias b   'bash'
 
 alias wdiff 'git diff --no-index --word-diff=color'
-alias open 'xdg-open'
 
 alias apc 'apt-cache'
 alias š   'git status'
-alias xclip 'xclip -selection clipboard'
+alias gs  'git status'
+
+# Open- and copy-related aliases
+switch (uname)
+    case "Linux"
+        alias xclip 'xclip -selection clipboard'
+        alias copy  'xclip'
+        alias open  'xdg-open'
+    case "*"
+        alias copy 'pbcopy'
+        alias hd   'hexdump -C'
+end
+
+alias k 'kubectl'
 
 # fish version of `function c() { cd "$@" && l; }`
 function c
-  builtin cd $argv; and l
+  # `cd` is a fish function around the fish builtin
+  cd $argv; and l
 end
 
 
@@ -44,12 +63,23 @@ function gitwatch -d "Run git command through `watch`; if no command is given, d
     command watch -n1 --color "git -c color.status=always $argv"
 end
 
-
 function llwatch -d "Run `ll` command through `watch`"
 
     watch -n1 --color 'ls -toh --time-style=+%d/%m/%Y --color=always'
 end
 
 function wh -d "Like `which`, but dereference links"
-    readlink -f (which $argv)
+    set LOCATION (which $argv)
+    if [ "$LOCATION" != "" ]
+        readlink -f (which $argv)
+    end
+end
+
+
+function lowercase
+    echo $argv | tr [:upper:] [:lower:]
+end
+
+function uppercase
+    echo $argv | tr [:lower:] [:upper:]
 end
