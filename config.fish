@@ -26,7 +26,7 @@ alias gs  'git status'
 switch (uname)
     case "Linux"
         alias xclip 'xclip -selection clipboard'
-        alias copy  'xclip'
+        alias copy  'xclip -selection clipboard'
         alias open  'xdg-open'
     case "*"
         alias copy 'pbcopy'
